@@ -1,4 +1,4 @@
-import { categories } from '@/data/mockData';
+import { categories } from '@/data/categories';
 import { cx } from '@/utils/helpers';
 
 export interface Filters {

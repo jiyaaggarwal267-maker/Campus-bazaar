@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { ProductCard } from '@/components/product/ProductCard';
 import { FilterSidebar, type Filters } from '@/components/product/FilterSidebar';
-import { categories } from '@/data/mockData';
+import { categories } from '@/data/categories';
 import { Input } from '@/components/ui/Input';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { useApp } from '@/context/AppContext';

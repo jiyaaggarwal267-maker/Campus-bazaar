@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useApp } from '@/context/AppContext';
 import { useAuth } from '@/context/AuthContext';
-import { categories } from '@/data/mockData';
+import { categories } from '@/data/categories';
 import { conditionLabels } from '@/data/types';
 import { uploadAPI } from '@/lib/api';
 
