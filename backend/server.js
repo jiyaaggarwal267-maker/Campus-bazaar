@@ -33,7 +33,8 @@ app.use(cors({
       "http://localhost:5178",
       "http://localhost:5179",
       "http://localhost:5180",
-      "http://localhost:5181"
+      "http://localhost:5181",
+      "https://campus-bazaar-1.vercel.app"
     ];
 
     if (!origin || allowed.includes(origin)) {
