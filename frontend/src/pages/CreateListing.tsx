@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 import { categories } from '@/data/categories';
 import { conditionLabels } from '@/data/types';
 import { uploadAPI } from '@/lib/api';
+import type { ProductCondition } from '@/data/types';
 
 export default function CreateListing() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function CreateListing() {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
-  const [condition, setCondition] = useState('good');
+  const [condition, setCondition] = useState<ProductCondition>('good');
   const [negotiable, setNegotiable] = useState(true);
 
   const {
@@ -87,7 +88,7 @@ export default function CreateListing() {
         description: data.description,
         price: Number(data.price),
         category: data.category,
-        condition,
+        condition: condition as ProductCondition,
         negotiable,
         college: user.college,
         images,
@@ -266,7 +267,7 @@ export default function CreateListing() {
                 <button
                   key={key}
                   type="button"
-                  onClick={() => setCondition(key)}
+                  onClick={() => setCondition(key as ProductCondition)}
                   className={`rounded-lg border py-2 text-xs font-medium transition ${
                     condition === key
                       ? 'bg-primary-600 text-white border-primary-600'

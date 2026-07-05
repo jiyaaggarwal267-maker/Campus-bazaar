@@ -28,8 +28,8 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           <input
             ref={ref} id={inputId}
             className={cx('input-field',
-              icon && 'pl-11',
-              iconRight && 'pr-11',
+              icon ? 'pl-11' : '',
+              iconRight ? 'pr-11' : '',
               error && 'border-red-400 focus:border-red-500 focus:ring-red-100',
               className)}
             {...rest}
