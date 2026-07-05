@@ -157,9 +157,15 @@ export default function Landing() {
           <h2 className="text-3xl font-bold mb-6">Trending</h2>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categories.slice(0, 4).map((c: string, i: number) => (
-              <ProductCard key={c} category={c} index={i} />
-            ))}
+            {categories.slice(0, 4).map((c, i) => (
+  <div
+    key={c}
+    className="card p-5 flex items-center justify-between hover:shadow-md transition"
+  >
+    <span className="font-medium text-ink-900">{c}</span>
+    <span className="text-xs text-ink-500">Explore</span>
+  </div>
+))}
           </div>
         </div>
       </section>
