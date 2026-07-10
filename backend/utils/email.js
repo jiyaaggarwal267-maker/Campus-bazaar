@@ -3,18 +3,22 @@ dotenv.config();
 import nodemailer from "nodemailer";
 
 console.log("EMAIL ENV CHECK", {
-  service: process.env.EMAIL_SERVICE,
   user: process.env.EMAIL_USER,
   pass: process.env.EMAIL_PASS ? "OK" : "MISSING",
 });
 
 // ---------------- TRANSPORTER ----------------
-// FIX: Use Gmail service instead of host/port (prevents localhost fallback)
+// SMTP configuration for Render deployment
 const transporter = nodemailer.createTransport({
-  service: process.env.EMAIL_SERVICE || "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
   },
 });
 
@@ -76,11 +80,13 @@ export const sendVerificationEmail = async (to, name, verifyUrl) => {
     });
 
     console.log("📧 Verification email sent:", info.messageId);
+
   } catch (err) {
     console.error("❌ Verification email failed:", err.message);
     throw err;
   }
 };
+
 
 // ---------------- WELCOME EMAIL ----------------
 export const sendWelcomeEmail = async (to, name) => {
@@ -98,6 +104,7 @@ export const sendWelcomeEmail = async (to, name) => {
     });
 
     console.log("🎉 Welcome email sent:", info.messageId);
+
   } catch (err) {
     console.error("❌ Welcome email failed:", err.message);
   }

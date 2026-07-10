@@ -17,11 +17,15 @@ import notificationRoutes from './routes/notification.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
 import { errorHandler } from './middleware/error.js';
 
-dotenv.config();
 const app = express();
+
+// Fix Render proxy + express-rate-limit issue
+app.set("trust proxy", 1);
+
 const server = http.createServer(app);
 
 app.use(helmet({ crossOriginResourcePolicy: false }));
+
 app.use(cors({
   origin: (origin, callback) => {
     const allowed = [
@@ -45,14 +49,26 @@ app.use(cors({
   },
   credentials: true,
 }));
-app.use(express.json({ limit: '10mb' }));
-app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 300 }));
 
-app.get('/', (req, res) => res.json({ status: 'ok', app: 'Campus Bazaar API' }));
+app.use(express.json({ limit: '10mb' }));
+
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300
+}));
+
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    app: 'Campus Bazaar API'
+  });
+});
+
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
+
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/chat', chatRoutes);
@@ -65,8 +81,15 @@ app.use(errorHandler);
 const start = async () => {
   await connectDB();
   await setupSocket(server);
+
   const PORT = process.env.PORT || 5002;
-  server.listen(PORT, () => console.log(`🚀 Server on http://localhost:${PORT}`));
+
+  server.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
 };
 
-start().catch((e) => { console.error(e); process.exit(1); });
+start().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

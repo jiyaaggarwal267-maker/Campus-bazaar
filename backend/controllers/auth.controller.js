@@ -17,6 +17,20 @@ export const signup = async (req, res) => {
 
     const cleanEmail = email.trim().toLowerCase();
 
+    // -------- COLLEGE EMAIL VALIDATION --------
+    const allowedDomains = process.env.ALLOWED_DOMAINS
+      ? process.env.ALLOWED_DOMAINS.split(",").map(domain => domain.trim())
+      : [];
+
+    const emailDomain = cleanEmail.split("@")[1];
+
+    if (!emailDomain || !allowedDomains.includes(emailDomain)) {
+      return res.status(400).json({
+        error: "Only college email addresses are allowed",
+      });
+    }
+    // -------------------------------------------
+
     const exists = await User.findOne({ email: cleanEmail });
 
     if (exists) {
@@ -33,7 +47,6 @@ export const signup = async (req, res) => {
       email: cleanEmail,
       password: hashedPassword,
 
-      // College will be selected later on Complete Profile page
       college: "",
 
       isVerified: false,
@@ -54,14 +67,15 @@ export const signup = async (req, res) => {
       token,
       user,
     });
+
   } catch (err) {
     console.error("Signup error:", err);
+
     return res.status(500).json({
       error: err.message,
     });
   }
 };
-
 // ---------------- LOGIN ----------------
 export const login = async (req, res) => {
   try {

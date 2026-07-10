@@ -54,7 +54,7 @@ const steps = [
   { num: '04', title: 'Meet on campus', desc: 'Complete safe in-person transactions.' },
 ];
 
-const colleges = ['IIT Delhi', 'IIT Bombay', 'IIIT Delhi', 'DTU', 'BITS Pilani', 'NSUT', 'JNU', 'DU'];
+const colleges = ['IIT Delhi', 'IIT Bombay', 'IIIT Delhi', 'DTU', 'BITS Pilani', 'NSUT', 'JNU', 'GGSIPU'];
 
 export default function Landing() {
   return (
@@ -106,21 +106,24 @@ export default function Landing() {
       </section>
 
       {/* STATS */}
-      <section className="py-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-          {[
-            { label: 'Active students', value: '12,400+' },
-            { label: 'Items sold', value: '8,200+' },
-            { label: 'Campuses', value: '8' },
-            { label: 'Rating', value: '4.8★' },
-          ].map((s, i) => (
-            <div key={i} className="card p-5 text-center">
-              <p className="text-2xl font-bold gradient-text">{s.value}</p>
-              <p className="text-xs text-ink-500">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+<section className="py-10">
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+    {[
+      { label: "Verified College Emails", value: "100%" },
+      { label: "Secure Student Chat", value: "24/7" },
+      { label: "Campus Meetups", value: "Safe" },
+      { label: "Platform Fee", value: "₹0" },
+    ].map((s, i) => (
+      <div
+        key={i}
+        className="card p-5 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+      >
+        <p className="text-2xl font-bold gradient-text">{s.value}</p>
+        <p className="text-xs text-ink-500 mt-1">{s.label}</p>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* COLLEGES */}
       <section className="py-10 border-y">
