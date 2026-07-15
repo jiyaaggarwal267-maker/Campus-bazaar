@@ -1,30 +1,14 @@
 import dotenv from "dotenv";
 dotenv.config();
-import nodemailer from "nodemailer";
 
-console.log("EMAIL ENV CHECK", {
-  user: process.env.EMAIL_USER,
-  pass: process.env.EMAIL_PASS ? "OK" : "MISSING",
+import { Resend } from "resend";
+
+console.log("RESEND ENV CHECK", {
+  key: process.env.RESEND_API_KEY ? "OK" : "MISSING",
 });
 
-// ---------------- TRANSPORTER ----------------
-// SMTP configuration for Render deployment
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-// ---------------- DEBUG CHECK ----------------
-transporter.verify((error, success) => {
-  if (error) {
-    console.log("❌ Email transporter error:", error.message);
-  } else {
-    console.log("✅ Email server is ready");
-  }
-});
 
 // ---------------- SEND VERIFICATION EMAIL ----------------
 export const sendVerificationEmail = async (to, name, verifyUrl) => {
@@ -64,17 +48,19 @@ export const sendVerificationEmail = async (to, name, verifyUrl) => {
         <p style="color: #9CA3AF; font-size: 12px; margin-top: 16px;">
           This link expires in 24 hours.
         </p>
+
       </div>
     `;
 
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+
+    const result = await resend.emails.send({
+      from: "Campus Bazaar <onboarding@resend.dev>",
       to,
       subject: "Verify your Campus Bazaar account",
       html,
     });
 
-    console.log("📧 Verification email sent:", info.messageId);
+    console.log("📧 Verification email sent:", result.data?.id);
 
   } catch (err) {
     console.error("❌ Verification email failed:", err.message);
@@ -83,11 +69,12 @@ export const sendVerificationEmail = async (to, name, verifyUrl) => {
 };
 
 
-// ---------------- WELCOME EMAIL ----------------
+// ---------------- SEND WELCOME EMAIL ----------------
 export const sendWelcomeEmail = async (to, name) => {
   try {
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+
+    const result = await resend.emails.send({
+      from: "Campus Bazaar <onboarding@resend.dev>",
       to,
       subject: "Welcome to Campus Bazaar! 🎉",
       html: `
@@ -98,7 +85,7 @@ export const sendWelcomeEmail = async (to, name) => {
       `,
     });
 
-    console.log("🎉 Welcome email sent:", info.messageId);
+    console.log("🎉 Welcome email sent:", result.data?.id);
 
   } catch (err) {
     console.error("❌ Welcome email failed:", err.message);
