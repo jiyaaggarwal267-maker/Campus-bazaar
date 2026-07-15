@@ -4,7 +4,7 @@ import User from "../models/User.js";
 import { signToken } from "../utils/token.js";
 import { sendVerificationEmail, sendWelcomeEmail } from "../utils/email.js";
 
-// ---------------- SIGNUP ----------------
+//---------------- SIGNUP ----------------
 export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -16,6 +16,7 @@ export const signup = async (req, res) => {
     }
 
     const cleanEmail = email.trim().toLowerCase();
+
 
     // -------- COLLEGE EMAIL VALIDATION --------
     const allowedDomains = process.env.ALLOWED_DOMAINS
