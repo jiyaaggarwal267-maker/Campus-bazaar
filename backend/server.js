@@ -29,7 +29,8 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://campus-bazaar-1.vercel.app"
+    "https://campus-bazaar-1.vercel.app",
+    "https://campus-bazaar-lilac.vercel.app"
   ],
   credentials: true,
 }));
