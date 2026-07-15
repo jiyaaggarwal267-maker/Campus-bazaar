@@ -27,26 +27,10 @@ const server = http.createServer(app);
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
 app.use(cors({
-  origin: (origin, callback) => {
-    const allowed = [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-      "http://localhost:5176",
-      "http://localhost:5177",
-      "http://localhost:5178",
-      "http://localhost:5179",
-      "http://localhost:5180",
-      "http://localhost:5181",
-      "https://campus-bazaar-1.vercel.app"
-    ];
-
-    if (!origin || allowed.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: [
+    "http://localhost:5173",
+    "https://campus-bazaar-1.vercel.app"
+  ],
   credentials: true,
 }));
 
